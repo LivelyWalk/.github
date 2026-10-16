@@ -2,12 +2,15 @@
 
 A marketplace where remote travelers book local guides to physically walk a route while streaming live video.
 
+🌐 [rendezvous-livewalk.webpeter.com](https://rendezvous-livewalk.webpeter.com/#how-it-works)
+
 ## Latest test builds
 
 - [Guide app (Android APK)](https://github.com/LivelyWalk/livewalk-guide/releases/tag/latest-test-build)
 - [Traveler app (Android APK)](https://github.com/LivelyWalk/livewalk-traveler/releases/tag/latest-test-build)
+- [Traveler web app (beta)](https://rendezvous-traveler-beta.webpeter.com/)
 
-Each link always points at the newest preview build — open it on the Android phone and tap **Install**, or scan its QR code.
+Each Android link always points at the newest build — open it on the phone and tap **Install**, or scan its QR code. The web link opens directly in your browser.
 
 ## Repositories
 
