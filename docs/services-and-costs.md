@@ -16,26 +16,22 @@ the account owner rather than assume.
 
 | Service | Used for | Where configured | Plan / cost | Status |
 |---|---|---|---|---|
-| GitHub (LivelyWalk org) | Source hosting, private repos, Teams, Projects v2 board | org settings | Unknown tier (Free/Team/Enterprise) | ❓ unconfirmed |
-| Cloudflare Workers | Hosts `livewalk-marketplace-api` at `api.livelywalk.com` | `livewalk-marketplace-api/wrangler.toml`, `CLOUDFLARE_API_TOKEN` secret | Unknown tier | ❓ unconfirmed |
-| Cloudflare Registrar | Owns the `livelywalk.com` domain | n/a (registrar account) | Annual registration fee, amount/renewal date unknown | ❓ unconfirmed |
-| Neon (Postgres) | Database behind the API, via Cloudflare Hyperdrive | `wrangler.toml` `[[hyperdrive]]` binding | Hit a hard usage limit on 2026-11-10 that reset the next day — behavior consistent with a free/low tier, not confirmed | ❓ unconfirmed — **this already caused a real outage once, worth checking first** |
-| LiveKit Cloud | Video/audio for live guide↔traveler sessions | `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET` secrets, `LIVEKIT_WS_URL` in app configs | Unknown tier; usage-based beyond free minutes | ❓ unconfirmed |
-| Mapbox | Place search / map rendering in both apps | `MAPBOX_TOKEN_MOBILE`, `MAPBOX_TOKEN_WEB`, `VITE_MAPBOX_TOKEN` | Unknown tier | ❓ unconfirmed |
-| Geoapify | Points-of-interest / route attraction lookups (replaced Overpass, TICKET-43) | `GEOAPIFY_API_KEY`, `livewalk-marketplace-api/src/places.js` | Unknown tier | ❓ unconfirmed |
-| Expo EAS | Builds guide + traveler Android APKs (frequent — every test-build cycle) | `eas.json` in both app repos | Unknown tier — **high-frequency use, worth checking this isn't already past a free-tier cap** | ❓ unconfirmed |
-| AssemblyAI | Speech-to-text for the voice-command-recognition epic (TICKET-47+) | Not yet wired into code — decision made 2026-11-11 | Arsham has an existing account/usage; plan tier not logged here yet | ❓ unconfirmed |
+| GitHub (LivelyWalk org) | Source hosting, private repos, Teams, Projects v2 board | org settings | Free plan | ✅ confirmed |
+| Cloudflare Workers | Hosts `livewalk-marketplace-api` at `api.livelywalk.com` | `livewalk-marketplace-api/wrangler.toml`, `CLOUDFLARE_API_TOKEN` secret | Free plan | ✅ confirmed |
+| Cloudflare Registrar | Owns the `livelywalk.com` domain | n/a (registrar account) | ~€11, believed to be the annual renewal (seen on last invoice; billing cadence not separately verified) | ✅ confirmed (cadence: best guess) |
+| Neon (Postgres) | Database behind the API, via Cloudflare Hyperdrive | `wrangler.toml` `[[hyperdrive]]` binding | Free plan — **this is why it hit a hard usage limit and caused a real outage on 2026-11-10**; expected behavior on this tier, not a bug. Worth an upgrade if it recurs. | ✅ confirmed |
+| LiveKit Cloud | Video/audio for live guide↔traveler sessions | `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET` secrets, `LIVEKIT_WS_URL` in app configs | Free plan | ✅ confirmed |
+| Mapbox | Place search / map rendering in both apps | `MAPBOX_TOKEN_MOBILE`, `MAPBOX_TOKEN_WEB`, `VITE_MAPBOX_TOKEN` | Free plan | ✅ confirmed |
+| Geoapify | Points-of-interest / route attraction lookups (replaced Overpass, TICKET-43) | `GEOAPIFY_API_KEY`, `livewalk-marketplace-api/src/places.js` | Free plan | ✅ confirmed |
+| Expo EAS | Builds guide + traveler Android APKs (frequent — every test-build cycle) | `eas.json` in both app repos | Starter plan, $19/month | ✅ confirmed |
+| AssemblyAI | Speech-to-text for the voice-command-recognition epic (TICKET-47+), provider decided 2026-11-11 | Not yet wired into code | **Not configured yet** — no account/plan set up; needs doing before TICKET-48 implementation starts | ✅ confirmed (as: not set up) |
 
 ## Open questions for the account owner
 
-- What plan is GitHub org billing on? (Free orgs can still use private repos + Teams up to a point, but confirm.)
-- What plan/usage tier is Neon actually on — the usage-limit outage on 2026-11-10 suggests this needs attention regardless of logging.
-- What plan is Cloudflare Workers on, and is Hyperdrive itself billed separately from the Worker?
-- What plan is LiveKit Cloud on, and roughly how many session-minutes/month are we using?
-- What plan is Expo EAS on — given how often builds are triggered in this project, confirm this isn't throttled or about to hit a cap.
-- What AssemblyAI plan/account is being used for the voice epic, and what's the expected per-minute cost at anticipated usage?
-- Domain renewal date and cost for `livelywalk.com`.
+- Confirm the €11 Cloudflare Registrar charge is actually annual (not some other cadence) next time it's convenient to check.
+- AssemblyAI plan/account still needs to be set up for real before the voice epic's implementation tickets (TICKET-48+) can use it live.
 
 ## History
 
-- 2026-11-11: File created. Inventoried every third-party API key/token found across all three app repos' config; no dollar figures or plan tiers were available from code, so everything above is logged as unconfirmed pending the account owner's input.
+- 2026-11-11: File created, every service inventoried as unconfirmed.
+- 2026-11-11: Account owner confirmed plan/cost for every service. All on free tiers except Expo EAS (Starter, $19/mo) and the Cloudflare-registered domain (~€11, believed annual). AssemblyAI confirmed not yet configured.
